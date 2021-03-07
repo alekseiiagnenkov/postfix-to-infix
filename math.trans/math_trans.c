@@ -15,20 +15,20 @@ char *transformation(char **str) {
             stack = ptr;
         } else {
             struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
-            int pr = stack->priority;
-            int pr1 = sign((*str)[i]);
-
-            if (pr >= pr1)
+/*            int pr = stack->priority;
+            int pr1 = sign((*str)[i]);*/
+            char arr[100] ={0};
+            strcat(arr, stack->arr);
+            //if (pr >= pr1)
                 ptr->arr[strlen(ptr->arr)] = '(';
-
-            strcat(ptr->arr, stack->arr);
 
             struct Elem *it = stack;
             stack = stack->next;
             free(it);
 
-            ptr->arr[strlen(ptr->arr)] = (*str)[i];
             strcat(ptr->arr, stack->arr);
+            ptr->arr[strlen(ptr->arr)] = (*str)[i];
+            strcat(ptr->arr, arr);
 
             it = stack;
             stack = stack->next;
@@ -39,7 +39,7 @@ char *transformation(char **str) {
             }
             stack = ptr;
 
-            if (pr >= pr1)
+            //if (pr >= pr1)
                 ptr->arr[strlen(ptr->arr)] = ')';
 
             ptr->priority = priority;
