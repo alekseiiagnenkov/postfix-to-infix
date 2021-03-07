@@ -9,8 +9,10 @@ struct Elem {
     struct Elem *next;
 };
 
-char *transformation(char **);
+void transformation(char **);
 
 int sign(char);
 
 int getStr(char **);
+
+char *getstr();

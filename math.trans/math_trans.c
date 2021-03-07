@@ -1,6 +1,6 @@
 #include "math_trans.h"
 
-char *transformation(char **str) {
+void transformation(char **str) {
     struct Elem *stack = NULL;
     for (int i = 0; i < strlen(*str); i++) {
         int priority = sign((*str)[i]);
@@ -8,40 +8,30 @@ char *transformation(char **str) {
         if (priority == 0) {
             struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
             ptr->arr[strlen(ptr->arr)] = (*str)[i];
-            ptr->priority = 1;
+            //ptr->priority = 1;
             if (stack != NULL) {
                 ptr->next = stack;
             }
             stack = ptr;
         } else {
             struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
-/*            int pr = stack->priority;
-            int pr1 = sign((*str)[i]);*/
-            char arr[100] ={0};
+            char arr[100] = {0};
+            ptr->arr[strlen(ptr->arr)] = '(';
             strcat(arr, stack->arr);
-            //if (pr >= pr1)
-                ptr->arr[strlen(ptr->arr)] = '(';
-
             struct Elem *it = stack;
             stack = stack->next;
             free(it);
-
             strcat(ptr->arr, stack->arr);
             ptr->arr[strlen(ptr->arr)] = (*str)[i];
             strcat(ptr->arr, arr);
-
             it = stack;
             stack = stack->next;
             free(it);
-
             if (stack != NULL) {
                 ptr->next = stack;
             }
             stack = ptr;
-
-            //if (pr >= pr1)
-                ptr->arr[strlen(ptr->arr)] = ')';
-
+            ptr->arr[strlen(ptr->arr)] = ')';
             ptr->priority = priority;
         }
     }
@@ -49,7 +39,6 @@ char *transformation(char **str) {
     *str = (char *) calloc(strlen(stack->arr), sizeof(char));
     strcat(*str, stack->arr);
     free(stack);
-    return *str;
 };
 
 int sign(char a) {
@@ -90,4 +79,34 @@ int getStr(char **s) //получаем строку из входного по�
             scanf("%*c");//если перенос строки, то очищаем входной поток
     } while (n > 0);       //пока во входном потоке есть хоть один символ
     return 0;
+}
+
+char *getstr() {
+    char *ptr = (char *) malloc(1);
+    char buf[81];
+    int n, len = 0;
+    *ptr = '\0';
+    do {
+        n = scanf("%80[^\n]", buf); // n = scanf_s ("%80[^\n]", buf, 81);
+        if (n < 0) {
+
+            free(ptr);
+            ptr = NULL;
+            continue;
+
+        }
+
+        if (n == 0)
+
+            scanf("%*c");
+
+        else {
+
+            len += strlen(buf);
+            ptr = (char *) realloc(ptr, len + 1);
+            strcat(ptr, buf);
+
+        }
+    } while (n > 0);
+    return ptr;
 }
