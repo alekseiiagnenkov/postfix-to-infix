@@ -13,6 +13,4 @@ void transformation(char **);
 
 int sign(char);
 
-int getStr(char **);
-
 char *getstr();

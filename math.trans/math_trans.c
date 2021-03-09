@@ -3,27 +3,27 @@
 void transformation(char **str) {
     struct Elem *stack = NULL;
     for (int i = 0; i < strlen(*str); i++) {
+    //for (int i = strlen(*str)-1; i >0; i--) {
         int priority = sign((*str)[i]);
 
+        struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
         if (priority == 0) {
-            struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
             ptr->arr[strlen(ptr->arr)] = (*str)[i];
-            //ptr->priority = 1;
             if (stack != NULL) {
                 ptr->next = stack;
             }
             stack = ptr;
         } else {
-            struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
             char arr[100] = {0};
             ptr->arr[strlen(ptr->arr)] = '(';
-            strcat(arr, stack->arr);
+            strcat(arr, stack->arr);//замутить для обратной
+            //strcat(ptr->arr, stack->arr);//размутить для обратной
             struct Elem *it = stack;
             stack = stack->next;
             free(it);
-            strcat(ptr->arr, stack->arr);
+            strcat(ptr->arr, stack->arr);//перенести с 24 стр на 26 для обратной
             ptr->arr[strlen(ptr->arr)] = (*str)[i];
-            strcat(ptr->arr, arr);
+            strcat(ptr->arr, arr);//замутить для обратной
             it = stack;
             stack = stack->next;
             free(it);
