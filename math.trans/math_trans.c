@@ -3,12 +3,12 @@
 void transformation(char **str) {
     struct Elem *stack = NULL;
     for (int i = 0; i < strlen(*str); i++) {
-        //for (int i = strlen(*str)-1; i >0; i--) {
+
         int priority = sign((*str)[i]);
 
         struct Elem *ptr = (struct Elem *) calloc(1, sizeof(struct Elem));
         if (priority == 0) {
-            ptr->arr[strlen(ptr->arr)] = (*str)[i];
+            ptr->arr[0] = (*str)[i];
             if (stack != NULL) {
                 ptr->next = stack;
             }
@@ -19,7 +19,7 @@ void transformation(char **str) {
             char arr[100] = {0};
             if (priority <= stack->priority) {
                 flag = 1;
-                ptr->arr[strlen(ptr->arr)] = '(';
+                ptr->arr[0] = '(';
             }
             strcat(arr, stack->arr);//замутить для обратной
             //strcat(ptr->arr, stack->arr);//размутить для обратной
@@ -42,7 +42,7 @@ void transformation(char **str) {
         }
     }
     free(*str);
-    *str = (char *) calloc(strlen(stack->arr), sizeof(char));
+    *str = (char *) calloc(strlen(stack->arr)+1, sizeof(char));
     strcat(*str, stack->arr);
     free(stack);
 };
